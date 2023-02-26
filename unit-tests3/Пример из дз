@@ -1,0 +1,24 @@
+  @Test
+    void insufficientCoverageTest(){
+
+        System.out.println(someService.calculatingDiscount(2000.0, 10));
+        assertThat(someService.calculatingDiscount(2000.0, 50))
+                .isEqualTo(1000); // обычная скидка
+        assertThat(someService.calculatingDiscount(2000.0, 100))
+                .isEqualTo(0); // обычная скидка
+        assertThat(someService.calculatingDiscount(2000.0, 0))
+                .isEqualTo(2000); // обычная скидка
+
+
+        assertThatThrownBy(() ->
+                someService.calculatingDiscount(2000.0, 110))
+                .isInstanceOf(ArithmeticException.class)
+                .hasMessage("Скидка должна быть в диапазоне от 0 до 100%"); // процент скидки больше 100%
+
+        assertThatThrownBy(() ->
+                someService.calculatingDiscount(2000.0, -10))
+                .isInstanceOf(ArithmeticException.class)
+                .hasMessage("Скидка должна быть в диапазоне от 0 до 100%"); // процент скидки меньше 0
+
+    }
+
